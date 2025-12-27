@@ -3,18 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Webpage Title</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Storage Display</title>
+    <style>
+        .data-section {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        h2 { color: #333; margin-top: 0; }
+        pre { background: #eee; padding: 10px; overflow-x: auto; }
+    </style>
 </head>
 <body>
-    <!-- Your main content goes here, such as headings, text, images, and more -->
-    <h1>Hello, World!</h1>
+
+    <h1>Local Storage Data</h1>
+
+    <div class="data-section">
+        <h2>User Profile (u_userData)</h2>
+        <div id="user-display">No user data found.</div>
+    </div>
+
+    <div class="data-section">
+        <h2>Time Stats (timePQ)</h2>
+        <div id="time-display">No time data found.</div>
+    </div>
 
     <script>
+        // 1. Function to get and display JSON data
+        function displayStoredData() {
+            // Fetch the strings from localStorage
+            const userRaw = localStorage.getItem("u_userData");
+            const timeRaw = localStorage.getItem("timePQ");
 
-localStorage.clear();
+            // Display u_userData
+            if (userRaw) {
+                const userData = JSON.parse(userRaw);
+                // Option A: Display as a formatted string
+                document.getElementById('user-display').innerHTML = `<pre>${JSON.stringify(userData, null, 2)}</pre>`;
+            }
 
-</script>
+            // Display timePQ
+            if (timeRaw) {
+                const timeData = JSON.parse(timeRaw);
+                // Option B: Access specific keys (Example: if timeData has a 'lastLogin' key)
+                // document.getElementById('time-display').innerText = "Last Login: " + timeData.lastLogin;
+                
+                document.getElementById('time-display').innerHTML = `<pre>${JSON.stringify(timeData, null, 2)}</pre>`;
+            }
+        }
+
+        // Run the function
+        displayStoredData();
+
+        // REMOVED: localStorage.clear(); 
+        // If you leave .clear() in, the data will disappear every time the page loads.
+    </script>
 </body>
 </html>
